@@ -36,7 +36,12 @@ func (u *WalletUsecase) CreateWallet(ctx context.Context) (*domain.Wallet, error
 	return wallet, nil
 }
 
-func (u *WalletUsecase) UpdateWallet(ctx context.Context, updateRequest *dto.WalletUpdateReq) error {
-	
+func (u *WalletUsecase) GetBalance(ctx context.Context, walletID uuid.UUID) (decimal.Decimal, error) {
+	wallet, err := u.walletRepo.GetByID(ctx, walletID)
+	if err != nil {
+		return nil, fmt.Errorf("wallet not found")
+	}
+
+	return wallet.Balance
 }
 
