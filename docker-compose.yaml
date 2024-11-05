@@ -1,0 +1,74 @@
+#version: '3.8'
+
+services:
+  # backend:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: .
+  #   image: goback
+  #   container_name: wallet-app-1
+  #   depends_on:
+  #     - postgres
+  #     - migrate
+  #   env_file:
+  #     - ./config.env
+  #   environment:
+  #     POSTGRES_DB: ${DB_NAME}
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASS}
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #       - dev
+
+  postgres:
+    container_name: postgres
+    image: postgres:12.19-bullseye
+    env_file:
+      - ./config.env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: "/var/lib/postgresql/data"
+    ports:
+      - "5431:5432"
+    volumes:
+      - ./postgres/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - dev
+
+  migrate:
+    build:
+      dockerfile: Dockerfile
+      context: ./infrastructure/db/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    volumes:
+      - ./infrastructure/db/migrations:/migrations
+    entrypoint: [ "migrate", "-path", "/migrations", "-database", "postgres://${DB_USER}:${DB_PASS}@postgres:5432/${DB_NAME}?sslmode=disable", "up" ]
+    networks:
+        - dev
+
+volumes:
+  postgres:
+  migrations:
+
+networks:
+  dev:
+    driver: bridge

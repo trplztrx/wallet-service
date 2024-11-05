@@ -1,0 +1,7 @@
+postgres:
+  host: ${DB_HOST}
+  port: ${DB_PORT}
+  user: ${DB_USER}
+  password: ${DB_PASS}
+  db: ${DB_NAME}
+  db-timeout-sec: 5
