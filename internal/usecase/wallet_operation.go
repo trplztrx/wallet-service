@@ -37,8 +37,6 @@ func (u *WalletOperationUsecase) Operation(ctx context.Context, operReq *dto.Wal
 	case "WITHDRAW":
 		wallet.Balance = wallet.Balance.Sub(operReq.Amount) // (opt)TODO: расширить до метода
 	}
-
-	// (моя хотелка)TODO: Cделать абстрактные транзакции для отвязки от БД, но похоже не судьба мне это сделать  еххх, дедляйни((
 	
 	curTime := time.Now()
 	wallet.UpdatedAt = curTime

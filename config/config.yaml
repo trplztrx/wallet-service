@@ -1,6 +1,6 @@
 postgres:
-  host: ${DB_HOST}
-  port: ${DB_PORT}
+  host: "postgres"
+  port: 5432
   user: ${DB_USER}
   password: ${DB_PASS}
   db: ${DB_NAME}

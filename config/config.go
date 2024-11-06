@@ -13,8 +13,8 @@ type Config struct {
 }
 
 type DBConfig struct {
-	Host         string `yaml:"host" env:"DB_HOST" env-default:"localhost"`
-	Port         int    `yaml:"port" env:"DB_PORT" env-default:"5432"`
+	Host         string `yaml:"host"`
+	Port         int    `yaml:"port"`
 	User         string `yaml:"user" env:"DB_USER" env-default:"postgres"`
 	Password     string `yaml:"password" env:"DB_PASS" env-default:"postgres"`
 	DatabaseName string `yaml:"db" env:"DB_NAME" env-default:"postgres"`

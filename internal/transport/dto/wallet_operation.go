@@ -10,3 +10,4 @@ type WalletOperationRequest struct {
 	OperationType string
 	Amount decimal.Decimal
 }
+

@@ -9,7 +9,7 @@ import (
 func main() {
 	cfg, err := config.ReadConfig()
 	if err != nil {
-		log.Fatal("Error: %v", err)
+		log.Fatalf("Error: %v", err)
 	}
 
 	app.Run(cfg)
