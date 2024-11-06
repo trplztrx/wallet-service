@@ -21,7 +21,17 @@ func NewWalletRepo(dbPool *pgxpool.Pool) *WalletRepo {
 	}
 }
 
-func (wr *WalletRepo) Create(ctx context.Context, wallet *domain.Wallet) error {
+func (r *WalletRepo) Create(ctx context.Context, wallet *domain.Wallet) error {
+	
+	query := `
+		insert into wallets (id, balance, created_at, updated_at)
+		values ($1, $2, $3, $4)
+	`
+	_, err := r.dbPool.Exec(ctx, query, wallet.ID, wallet.Balance, wallet.CreatedAt, wallet.UpdatedAt)
+	if err != nil {
+		return fmt.Errorf("postgres wallet repo: create error: %w", err)
+	}
+
 	return nil
 }
 
@@ -40,6 +50,6 @@ func (wr *WalletRepo) GetByID(ctx context.Context, walletID uuid.UUID) (*domain.
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert balance to decimal: %v", err)
 	}
-	
+
 	return &wallet, nil
 } 	

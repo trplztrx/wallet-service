@@ -6,7 +6,7 @@ import (
 )
 
 type TransactionCreateRequest struct {
-	WalletID uuid.UUID
+	WalletID      uuid.UUID
 	OperationType string
-	Amount decimal.Decimal
+	Amount        decimal.Decimal
 }

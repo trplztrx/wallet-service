@@ -6,8 +6,7 @@ import (
 )
 
 type WalletOperationRequest struct {
-	WalletID uuid.UUID
-	OperationType string
-	Amount decimal.Decimal
+	WalletID      uuid.UUID       `json:"wallet_id"`
+	OperationType string          `json:"operation_type"`
+	Amount        decimal.Decimal `json:"amount"`
 }
-

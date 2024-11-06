@@ -31,15 +31,21 @@ func Run(cfg *config.Config) {
 	router.Use(middleware.Logger)
 	
 	walletRepo := pgsql.NewWalletRepo(pool)
+	transactionRepo := pgsql.NewTransactionRepo(pool)
+	walletOperationRepo := pgsql.NewWalletOperationRepo(pool, walletRepo, transactionRepo)
+
 	walletUsecase := usecase.NewWalletUsecase(walletRepo)
+	walletOperationUsecase := usecase.NewWalletOperationUsecase(walletOperationRepo, walletRepo, transactionRepo)
+	
+	walletOperationHandler := handler.NewWalletOperationHandler(*walletOperationUsecase)
 	walletHandler := handler.NewWalletHandler(*walletUsecase)
 
 	router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
 	})
-	
-	// r.Post("/api/v1/wallet", walletOperationHandler.Operation())
+
+	router.Post("/api/v1/wallet", walletOperationHandler.Operation)
 	router.Get("/api/v1/wallet/{wallet_id}", walletHandler.GetBalance)
 
 	err = http.ListenAndServe(":8080", router)

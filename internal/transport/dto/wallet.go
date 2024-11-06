@@ -7,11 +7,9 @@ import (
 
 // type WalletUpdateReq struct {
 // 	WalletID uuid.UUID
-// 	Balance decimal.Decimal 
+// 	Balance decimal.Decimal
 // }
 
 type WalletGetBalanceResponse struct {
 	Balance decimal.Decimal `json:"balance"`
 }
-
-
