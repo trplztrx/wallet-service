@@ -43,8 +43,8 @@ func (h *WalletOperationHandler) Operation(w http.ResponseWriter, r *http.Reques
 		switch err.Error() {
         case "wallet not found":
             respondWithError(w, http.StatusNotFound, "Wallet not found")
-        default:
-            respondWithError(w, http.StatusInternalServerError, "Internal server error")
+		default:
+            respondWithError(w, http.StatusInternalServerError, err.Error())
         }
         return
 	}

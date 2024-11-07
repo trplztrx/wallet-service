@@ -49,7 +49,7 @@ func (u *WalletOperationUsecase) Operation(ctx context.Context, operReq *dto.Wal
 	}
 	err = u.walletOperationRepo.Create(ctx, wallet, transaction)
 	if err != nil {
-		return fmt.Errorf("failed process operation %v", err)
+		return err
 	}
 
 	return nil

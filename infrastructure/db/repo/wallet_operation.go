@@ -36,7 +36,7 @@ func (r *WalletOperationRepo) Create(ctx context.Context, wallet *domain.Wallet,
 		}
 	}()
 
-	err = r.walletRepo.Create(ctx, wallet)
+	err = r.walletRepo.Update(ctx, wallet)
 	if err != nil {
 		return err
 	}

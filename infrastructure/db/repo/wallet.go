@@ -35,11 +35,11 @@ func (r *WalletRepo) Create(ctx context.Context, wallet *domain.Wallet) error {
 	return nil
 }
 
-func (wr *WalletRepo) GetByID(ctx context.Context, walletID uuid.UUID) (*domain.Wallet, error) {
+func (r *WalletRepo) GetByID(ctx context.Context, walletID uuid.UUID) (*domain.Wallet, error) {
 	var wallet domain.Wallet
 	var balanceStr string
 	query := `select * from wallets where id = $1`
-	row := wr.dbPool.QueryRow(ctx, query, walletID)
+	row := r.dbPool.QueryRow(ctx, query, walletID)
 
 	err := row.Scan(&wallet.ID, &balanceStr, &wallet.CreatedAt, &wallet.UpdatedAt)
 	if err != nil {
@@ -53,3 +53,13 @@ func (wr *WalletRepo) GetByID(ctx context.Context, walletID uuid.UUID) (*domain.
 
 	return &wallet, nil
 } 	
+
+func (r *WalletRepo) Update(ctx context.Context, wallet *domain.Wallet) error {
+	query := `update wallets set balance = $1, updated_at = $2 where id = $3`
+
+	_, err := r.dbPool.Exec(ctx, query, wallet.Balance, wallet.UpdatedAt, wallet.ID)
+	if err != nil {
+		return fmt.Errorf("postgres wallet repo: update error: %v", err)
+	}
+	return nil
+}

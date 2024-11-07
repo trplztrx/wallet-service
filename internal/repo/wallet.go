@@ -9,6 +9,6 @@ import (
 
 type WalletRepo interface {
 	Create(ctx context.Context, wallet *domain.Wallet) error
-	// Update(ctx context.Context, walletID, newBalance decimal.Decimal) error
+	Update(ctx context.Context, wallet *domain.Wallet) error
 	GetByID(ctx context.Context, walletID uuid.UUID) (*domain.Wallet, error)
 }
