@@ -8,10 +8,10 @@
 docker exec wallet-app-1 /app/main create-wallet
 
 ## API
- - GET api/v1/wallets/{WALLET_UUID}
+ - GET api/v1/wallet/{WALLET_UUID}
  - POST api/v1/wallet
   {
-  walletId: UUID,
-  operationType: DEPOSIT or WITHDRAW,
+  wallet_id: UUID,
+  operation_type: DEPOSIT or WITHDRAW,
   amount: 1000
   }
